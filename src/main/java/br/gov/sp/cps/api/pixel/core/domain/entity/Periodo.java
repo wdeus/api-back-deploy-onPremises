@@ -7,19 +7,17 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "dim_entrevista")
-public class Entrevista {
+@Table(name = "dim_periodo")
+public class Periodo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idEntrevista;
+    private int idPeriodo;
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date dtEntrevista;
+    private Date dtAbertura;
 
     @Column(nullable = false)
-    private String entrevistador;
-
-    @Column(nullable = false)
-    private String resultado;
+    @Temporal(TemporalType.DATE)
+    private Date dtFechamento;
 }
