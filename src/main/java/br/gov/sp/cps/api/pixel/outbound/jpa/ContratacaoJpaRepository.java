@@ -11,8 +11,4 @@ public interface ContratacaoJpaRepository extends JpaRepository<Contratacao, Int
     default List<Contratacao> salvar(List<Contratacao> contratacoes) {
         return saveAll(contratacoes);
     }
-
-    default boolean existePorId(int id){
-        return existsById(id);
-    }
 }

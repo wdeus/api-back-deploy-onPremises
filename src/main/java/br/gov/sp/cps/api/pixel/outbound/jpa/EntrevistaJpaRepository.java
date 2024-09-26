@@ -11,8 +11,4 @@ public interface EntrevistaJpaRepository extends JpaRepository<Entrevista, Integ
     default List<Entrevista> salvar(List<Entrevista> entrevistas) {
         return saveAll(entrevistas);
     }
-
-    default boolean existePorId(int id){
-        return existsById(id);
-    }
 }

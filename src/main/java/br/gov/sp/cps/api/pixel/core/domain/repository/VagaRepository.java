@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface VagaRepository {
     List<Vaga> salvar(List<Vaga> vaga);
-
-    boolean existePorId(int idVaga);
 }

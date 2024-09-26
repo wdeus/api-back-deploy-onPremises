@@ -11,8 +11,4 @@ public interface ParticipanteRHJpaRepository extends JpaRepository<ParticipanteR
     default List<ParticipanteRH> salvar(List<ParticipanteRH> participantesRH) {
         return saveAll(participantesRH);
     }
-
-    default boolean existePorId(int id){
-        return existsById(id);
-    }
 }

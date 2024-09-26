@@ -1,7 +1,8 @@
-package br.gov.sp.cps.api.pixel.outbound.llm.config;
+package br.gov.sp.cps.api.pixel.outbound.llm;
 
 import br.gov.sp.cps.api.pixel.core.domain.repository.AnaliseRepository;
 import br.gov.sp.cps.api.pixel.core.domain.repository.FormatadorRepository;
+import br.gov.sp.cps.api.pixel.outbound.llm.config.LlmConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.ai.chat.client.ChatClient;

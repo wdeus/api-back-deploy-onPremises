@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface FormatadorRepository {
 
-    MapeamentoDTO executar(String json);
+    <T> T executar(String json, Class<T> entidadeClass);
 
     List<String> extrairJsonObjects(String input);
 }

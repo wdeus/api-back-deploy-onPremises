@@ -11,8 +11,4 @@ public interface PeriodoJpaRepository extends JpaRepository<Periodo, Integer>, P
     default List<Periodo> salvar(List<Periodo> periodos) {
         return saveAll(periodos);
     }
-
-    default boolean existePorId(int id){
-        return existsById(id);
-    }
 }

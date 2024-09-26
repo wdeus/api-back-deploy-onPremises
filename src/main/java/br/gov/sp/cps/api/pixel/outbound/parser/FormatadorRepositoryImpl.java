@@ -1,11 +1,11 @@
-package br.gov.sp.cps.api.pixel.outbound.llm.config;
+package br.gov.sp.cps.api.pixel.outbound.parser;
 
-import br.gov.sp.cps.api.pixel.core.domain.dto.MapeamentoDTO;
 import br.gov.sp.cps.api.pixel.core.domain.repository.FormatadorRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +14,8 @@ public class FormatadorRepositoryImpl implements FormatadorRepository {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    @Override
-    public MapeamentoDTO executar(String json) {
+    public <T> T executar(String json, Class<T> entidadeClass) {
+        objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd"));
         int startIndex = json.indexOf("{");
         int endIndex = json.lastIndexOf("}");
         String response = "";
@@ -23,19 +23,19 @@ public class FormatadorRepositoryImpl implements FormatadorRepository {
         if (startIndex != -1 && endIndex != -1) {
             response = json.substring(startIndex, endIndex + 1);
         }
-        MapeamentoDTO mapeamentoDTO = new MapeamentoDTO();
+        T entidade = null;
         try {
-            mapeamentoDTO = objectMapper.readValue(response, MapeamentoDTO.class);
+            entidade = objectMapper.readValue(response, entidadeClass);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return mapeamentoDTO;
+        return entidade;
     }
 
     @Override
     public List<String> extrairJsonObjects(String input) {
         List<String> jsonObjects = new ArrayList<>();
-        int depth = 0; // Nível de profundidade de chaves
+        int depth = 0;
         StringBuilder currentJson = new StringBuilder(); // Armazena o JSON atual
 
         boolean insideJson = false;
@@ -57,7 +57,7 @@ public class FormatadorRepositoryImpl implements FormatadorRepository {
                 if (depth == 0) {
                     insideJson = false;
                     jsonObjects.add(currentJson.toString().trim());
-                    currentJson.setLength(0); // Limpa o `StringBuilder` para o próximo JSON
+                    currentJson.setLength(0);
                 }
             }
         }

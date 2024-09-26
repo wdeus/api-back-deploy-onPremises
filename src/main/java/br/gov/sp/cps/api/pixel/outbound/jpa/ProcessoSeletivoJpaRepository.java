@@ -11,8 +11,4 @@ public interface ProcessoSeletivoJpaRepository extends JpaRepository<ProcessoSel
     default List<ProcessoSeletivo> salvar(List<ProcessoSeletivo> processos) {
         return saveAll(processos);
     }
-
-    default boolean existePorId(int id){
-        return existsById(id);
-    }
 }

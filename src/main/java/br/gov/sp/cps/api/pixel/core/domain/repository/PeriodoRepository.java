@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface PeriodoRepository {
     List<Periodo> salvar(List<Periodo> periodos);
-
-    boolean existePorId(int idPeriodo);
 }

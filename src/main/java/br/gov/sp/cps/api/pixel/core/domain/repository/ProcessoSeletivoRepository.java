@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface ProcessoSeletivoRepository {
     List<ProcessoSeletivo> salvar(List<ProcessoSeletivo> processosSeletivos);
-
-    boolean existePorId(int idProcessoSeletivo);
 }

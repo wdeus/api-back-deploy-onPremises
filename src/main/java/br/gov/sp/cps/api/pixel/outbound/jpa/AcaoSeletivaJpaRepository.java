@@ -11,8 +11,4 @@ public interface AcaoSeletivaJpaRepository extends JpaRepository<AcaoSeletiva, I
     default List<AcaoSeletiva> salvar(List<AcaoSeletiva> acoesSeletivas) {
         return saveAll(acoesSeletivas);
     }
-
-    default boolean existePorId(int id){
-        return existsById(id);
-    }
 }

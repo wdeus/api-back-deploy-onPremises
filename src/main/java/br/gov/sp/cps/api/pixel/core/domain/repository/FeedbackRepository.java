@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface FeedbackRepository {
     List<Feedback> salvar(List<Feedback> feedbacks);
-
-    boolean existePorId(int idFeedback);
 }

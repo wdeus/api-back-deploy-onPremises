@@ -11,8 +11,4 @@ public interface FeedbackJpaRepository extends JpaRepository<Feedback, Integer>,
     default List<Feedback> salvar(List<Feedback> feedbacks) {
         return saveAll(feedbacks);
     }
-
-    default boolean existePorId(int id){
-        return existsById(id);
-    }
 }

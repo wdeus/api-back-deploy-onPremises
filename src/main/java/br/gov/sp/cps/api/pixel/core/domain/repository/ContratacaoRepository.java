@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface ContratacaoRepository {
     List<Contratacao> salvar(List<Contratacao> contratacoes);
-
-    boolean existePorId(int idContratacao);
 }

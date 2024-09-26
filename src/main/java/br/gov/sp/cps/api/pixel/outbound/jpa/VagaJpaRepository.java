@@ -11,8 +11,4 @@ public interface VagaJpaRepository extends JpaRepository<Vaga, Integer>, VagaRep
     default List<Vaga> salvar(List<Vaga> vagas){
         return saveAll(vagas);
     }
-
-    default boolean existePorId(int id){
-        return existsById(id);
-    }
 }

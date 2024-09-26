@@ -1,4 +1,4 @@
-package br.gov.sp.cps.api.pixel.outbound.llm.config;
+package br.gov.sp.cps.api.pixel.outbound.parser;
 
 
 import br.gov.sp.cps.api.pixel.core.domain.repository.DocumentoRepository;

@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface AcaoSeletivaRepository {
     List<AcaoSeletiva> salvar(List<AcaoSeletiva> acoesSeletivas);
-
-    boolean existePorId(int idAcao);
 }
