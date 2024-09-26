@@ -64,10 +64,10 @@ public class MapeamentoRepositoryImpl implements MapeamentoRepository {
         List<ProcessoSeletivo> processos = converterJsonParaEntidades(jsons, ProcessoSeletivo.class, chatModel);
         processoSeletivoRepository.salvar(processos);
 
-        Thread.sleep(30000);
-
         List<Vaga> vagas = converterJsonParaEntidades(jsons, Vaga.class, chatModel);
         vagaRepository.salvar(vagas);
+
+        Thread.sleep(30000);
 
         List<FatoEntrevista> fatoEntrevista = converterJsonParaEntidades(jsons, FatoEntrevista.class, chatModel);
         fatoEntrevistaRepository.popularEntidades(fatoEntrevista, entrevistas,vagas,feedbacks,acoesSeletivas,participantesRH,contratacoes);
