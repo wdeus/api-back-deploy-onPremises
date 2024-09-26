@@ -93,21 +93,7 @@ public class MapeamentoRepositoryImpl implements MapeamentoRepository {
             params.put("entidade", entidadeClass);
 
             T entidade = ChatClient.create(chatModel).prompt()
-                    .user(u -> u.text("\"Retorne apenas a estrutura JSON no formato: {format} de acordo com os dados fornecidos: {document}. \"\n" +
-                                    "    + \"Você deve retornar um único item, observando os campos que são listas []. Para os campos que não são listas, \"\n" +
-                                    "    + \"retorne apenas valores numéricos inteiros. Siga as seguintes regras:\\n\"\n" +
-                                    "    + \"no campo **nrCandidatosInscritos**,retornar separadamente a quantidade de candidatos, retorne através de um \"\n" +
-                                    "    + \"arrey de inteiros. No campo **nrContratacoes**, analise o resultado das entrevistas e retorne separadamente a \"\n" +
-                                    "    + \"quantidade sendo 1 para resultado 'aprovado', 0 para 'reprovado' e retorne um array de inteiros.\\n\"\n" +
-                                    "    + \"No campo **nrEntrevistas**, retornar separadamente a quantidade de entrevistas feitas, retornar através de um \"\n" +
-                                    "    + \"arrey de inteiros.\\n\"\n" +
-                                    "    + \"No campo **nrPosicoesAbertas**, considere o Nome do Processo Seletivo e o status do processo. Retorne '1' para \"\n" +
-                                    "    + \"processos abertos e '0' para processos fechados, retornando os valores em um array de inteiros.\\n\"\n" +
-                                    "    + \"No campo **nrPosicoesVagas**, retornar separadamente a quantidade de Responsável Vaga, retorne através de um \"\n" +
-                                    "    + \"arrey de inteiros.\\n\"\n" +
-                                    "    + \"No campo **tempoMedioProcesso**, calcule o tempo médio de duração de cada processo, subtraindo a Data de Início \"\n" +
-                                    "    + \"do Processo da Data de Fim do Processo. Retorne os valores em um array de inteiros, representando o tempo médio \"\n" +
-                                    "    + \"em dias para cada processo.\"")
+                    .user(u -> u.text("Converta o json a seguir {json} para a entidade: {entidade}")
                             .params(params))
                     .call()
                     .entity(entidadeClass);
