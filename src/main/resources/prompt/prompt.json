@@ -9,7 +9,7 @@
   "dtEntrevista": "String",
   "dtFechamentoVaga": "String",
   "dtFimProcessoSeletivo": "String",
-  "dtHora": "String",
+  "dtAcaoSeletiva": "String",
   "dtInicioProcessoSeletivo": "String",
   "entrevistador": "String",
   "localizacaoVaga": "String",
@@ -30,5 +30,6 @@
   "tempoMedioProcesso": "Integer",
   "tipo": "String",
   "tipoContrato": "Integer",
-  "tituloVaga": "String"
+  "tituloVaga": "String",
+  "tipoAcaoSeletiva": "String"
 }
