@@ -6,6 +6,7 @@ import br.gov.sp.cps.api.pixel.core.domain.repository.MapeamentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 @Service
@@ -16,10 +17,14 @@ public class AnalisarDocumentoUC {
     private final DocumentoRepository documentoRepository;
     private final MapeamentoRepository mapeamentoRepository;
 
-    public void executar(){
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("excel_formatado.xlsx");
+    public void executar(byte[] document){
+        InputStream inputStream = converte(document);
         String documentoFormatado = documentoRepository.extrair(inputStream);
         String mapeamento = analiseRepository.processarDados(documentoFormatado);
         mapeamentoRepository.popularEntidades(mapeamento);
+    }
+
+    private InputStream converte(byte[] document) {
+        return new ByteArrayInputStream(document);
     }
 }
