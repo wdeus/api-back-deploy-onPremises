@@ -1,4 +1,4 @@
-package br.gov.sp.cps.api.pixel.outbound.jpa;
+package br.gov.sp.cps.api.pixel.outbound.jpa.bd;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;

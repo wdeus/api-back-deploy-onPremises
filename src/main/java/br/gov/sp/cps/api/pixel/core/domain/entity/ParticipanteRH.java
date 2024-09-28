@@ -4,25 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 @Entity
-@Table(name = "dim_entrevista")
+@Table(name = "dim_participante_rh")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Entrevista {
+public class ParticipanteRH {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_dim_entrevista")
-    private int idEntrevista;
+    @Column(name = "id_dim_participante_rh")
+    private int idParticipanteRh;
 
     @Column(nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date dtEntrevista;
+    private String nome;
 
     @Column(nullable = false)
-    private String entrevistador;
-
-    @Column(nullable = false)
-    private String resultado;
+    private String cargo;
 }
