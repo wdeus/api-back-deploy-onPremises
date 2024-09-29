@@ -20,12 +20,12 @@ public class GraficoRepositoryImpl implements GraficoRepository {
 
     @Override
     public List<?> getGrafico(VisualizarGraficoCommand command) {
-        StringBuilder queryBuilder = new StringBuilder("SELECT ");
+        StringBuilder queryBuilder = new StringBuilder("SELECT SUM(");
 
         queryBuilder.append(command.getEixoX().getNome())
                 .append(".")
                 .append(command.getEixoX().getCampo())
-                .append(", ")
+                .append(" ), ")
                 .append(command.getEixoY().getNome())
                 .append(".")
                 .append(command.getEixoY().getCampo());
@@ -74,6 +74,11 @@ public class GraficoRepositoryImpl implements GraficoRepository {
                 }
             }
         }
+
+        queryBuilder.append(" GROUP BY ");
+        queryBuilder.append(command.getEixoY().getNome())
+                .append(".")
+                .append(command.getEixoY().getCampo());
 
         System.out.println("Query gerada: " + queryBuilder.toString());
 
