@@ -1,10 +1,19 @@
 package br.gov.sp.cps.api.pixel.inbound.rest;
 
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import br.gov.sp.cps.api.pixel.core.domain.dto.Eixo;
 import br.gov.sp.cps.api.pixel.core.domain.dto.Filtro;
 import br.gov.sp.cps.api.pixel.core.domain.dto.command.VisualizarGraficoCommand;
 import br.gov.sp.cps.api.pixel.core.usecase.VisualizarGraficoUC;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -13,59 +22,58 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.mockito.Mockito.*;
-import java.util.ArrayList;
-import java.util.List;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-@WebMvcTest(CardController.class)
-class GraficoControllerTest {
+@WebMvcTest(GraficoController.class)
+class GraficoControllerTest{
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private VisualizarGraficoUC visualizarGraficoUC;
+    private VisualizarGraficoUC  visualizarCardUC;
 
-    private VisualizarGraficoCommand command;
+    private VisualizarGraficoCommand  command;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        // Criação dos objetos Eixo
+        // Criação de um Eixo para o comando
         Eixo eixoX = new Eixo();
-        eixoX.setNome("Eixo X Teste");
-        eixoX.setCampo("campoX");
-
-        Eixo eixoY = new Eixo();
-        eixoY.setNome("Eixo Y Teste");
-        eixoY.setCampo("campoY");
+        eixoX.setNome("Eixo de Teste");
+        eixoX.setCampo("campoTeste");
 
         // Criação de filtros
         Filtro filtro1 = new Filtro();
-        filtro1.setNome("Filtro Categoria");
-        filtro1.setCampo("categoria");
+        filtro1.setNome("Filtro Status");
+        filtro1.setCampo("status");
         filtro1.setComparador("igual a");
-        filtro1.setValor("financeiro");
+        filtro1.setValor("aprovado");
+
+        Filtro filtro2 = new Filtro();
+        filtro2.setNome("Filtro Data");
+        filtro2.setCampo("dataCriacao");
+        filtro2.setComparador("maior que");
+        filtro2.setValor("2024-01-01");
 
         List<Filtro> filtros = new ArrayList<>();
         filtros.add(filtro1);
+        filtros.add(filtro2);
 
-        // Criação do comando
+        // Criação do comando com Eixo e Filtros
         command = new VisualizarGraficoCommand();
         command.setEixoX(eixoX);
-        command.setEixoY(eixoY);
         command.setFiltros(filtros);
     }
 
     @Test
-    public void devGraficoController() throws Exception {
+    public void devGraficoController() throws Exception{
         // Arrange
 
-        when(visualizarGraficoUC.executar(command)).thenReturn(List.of());
+        // Casting explícito para List<?>
+        when(visualizarCardUC.executar(command)).thenReturn(List.of());
 
+        // Converte o comando para JSON
         ObjectMapper objectMapper = new ObjectMapper();
         String commandJson = objectMapper.writeValueAsString(command);
 
@@ -73,8 +81,9 @@ class GraficoControllerTest {
         mockMvc.perform(post("/visualizacao/grafico")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commandJson))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk()); // Verifica se o status da resposta é 200 OK
 
-        verify(visualizarGraficoUC, times(1)).executar(command);
+        // Verifica se o método executar foi chamado exatamente uma vez
+        verify(visualizarCardUC, times(1)).executar(command);
     }
-}
+}   

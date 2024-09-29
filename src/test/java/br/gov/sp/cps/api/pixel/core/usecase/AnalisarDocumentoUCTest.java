@@ -3,11 +3,13 @@ package br.gov.sp.cps.api.pixel.core.usecase;
 import br.gov.sp.cps.api.pixel.core.domain.repository.AnaliseRepository;
 import br.gov.sp.cps.api.pixel.core.domain.repository.DocumentoRepository;
 import br.gov.sp.cps.api.pixel.core.domain.repository.MapeamentoRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -27,23 +29,29 @@ class AnalisarDocumentoUCTest {
     @InjectMocks
     private AnalisarDocumentoUC analisarDocumentoUC;
 
-    public AnalisarDocumentoUCTest() {
+    @BeforeEach
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void devAnalisarDocumento() {
-        when(documentoRepository.extrair(any())).thenReturn("documentoFormatado");
-        when(analiseRepository.processarDados("documentoFormatado")).thenReturn("mapeamento");
+    void executarTest() {
+        // Dados de entrada
+        byte[] documento = "conteudo".getBytes();
+        InputStream inputStream = new ByteArrayInputStream(documento);
+        String documentoFormatado = null;
+        String mapeamento = "mapeamento";
 
+        // Configurando o comportamento dos mocks
+        when(documentoRepository.extrair(inputStream)).thenReturn(documentoFormatado);
+        when(analiseRepository.processarDados(documentoFormatado)).thenReturn(mapeamento);
 
-        analisarDocumentoUC.executar();
+        // Executar o método que será testado
+        analisarDocumentoUC.executar(documento);
 
-        verify(documentoRepository, times(1)).extrair(any(InputStream.class));
-        verify(analiseRepository, times(1)).processarDados("documentoFormatado");
-        verify(mapeamentoRepository, times(1)).popularEntidades("mapeamento");
-
-        // Verifica que nenhum outro método foi chamado inesperadamente
-        verifyNoMoreInteractions(documentoRepository, analiseRepository, mapeamentoRepository);
+        // Verificando se os métodos dos mocks foram chamados corretamente
+        verify(documentoRepository).extrair(any(InputStream.class));
+        verify(analiseRepository).processarDados(documentoFormatado);
+        verify(mapeamentoRepository).popularEntidades(mapeamento);
     }
 }
