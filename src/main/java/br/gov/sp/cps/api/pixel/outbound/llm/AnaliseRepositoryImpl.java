@@ -31,7 +31,8 @@ public class AnaliseRepositoryImpl implements AnaliseRepository {
         String mapeamentoDTO = ChatClient.create(chatModel).prompt()
                 .user(u -> u.text("Retorne apenas a estrutura json: {format} de acordo com os dados a seguir: {document}. Você deve retornar uma lista da estrutura fornecida, " +
                                 "de acordo com cada linha do documento em analise. Para os valores de data, desconsiderar as horas/minutos e retornar na estrutura yyyy-mm-dd. Os campos com prefixo nr devem ser todos preenchidos com 1." +
-                                "O campo salarioInicialMedio deve ser a média dos salários de registros que possuem nomeProcessoSeletivo igual.")
+                                "O campo salarioInicialMedio deve ser a média dos salários de registros que possuem nomeProcessoSeletivo igual." +
+                                "O campo tempoMedioProcesso deve ser a diferença entre os campos dtAberturaVaga e dtFechamentoVaga")
                         .params(params))
                 .call()
                 .content();
