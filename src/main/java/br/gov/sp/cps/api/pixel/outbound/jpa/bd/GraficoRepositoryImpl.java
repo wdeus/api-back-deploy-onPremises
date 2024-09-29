@@ -20,8 +20,8 @@ public class GraficoRepositoryImpl implements GraficoRepository {
 
     @Override
     public List<?> getGrafico(VisualizarGraficoCommand command) {
-        StringBuilder queryBuilder = new StringBuilder("SELECT SUM(");
-
+        String select = command.getEixoX().getCampo().equals("tempo_medio_processo") ? "SELECT AVG(" : "SELECT SUM(";
+        StringBuilder queryBuilder = new StringBuilder(select);
         queryBuilder.append(command.getEixoX().getNome())
                 .append(".")
                 .append(command.getEixoX().getCampo())
