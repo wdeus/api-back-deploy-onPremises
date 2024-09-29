@@ -64,8 +64,6 @@ public class MapeamentoRepositoryImpl implements MapeamentoRepository {
         List<ProcessoSeletivo> processos = converterJsonParaEntidades(jsons, ProcessoSeletivo.class, chatModel);
         processoSeletivoRepository.salvar(processos);
 
-        Thread.sleep(30000);
-
         List<Vaga> vagas = converterJsonParaEntidades(jsons, Vaga.class, chatModel);
         vagaRepository.salvar(vagas);
 
@@ -94,7 +92,8 @@ public class MapeamentoRepositoryImpl implements MapeamentoRepository {
 
             String entidadeMapeada = ChatClient.create(chatModel).prompt()
                     .user(u -> u.text("Converta o json a seguir {json} para a entidade: {entidade}. Os atributos da entidade que contem prefixo id, devem ser preenchidos com 0. " +
-                                    "Os atributos do tipo date devem ser representados com string. O retorno tem que ser baseado nesta estrutura: {estrutura} e nada mais (sem comentarios extras).")
+                                    "Os atributos do tipo date devem ser representados com string. O retorno tem que ser baseado nesta estrutura: {estrutura} e nada mais (sem comentarios extras)." +
+                                    " Os campos com prefixo nr devem ser todos preenchidos com 1")
                             .params(params))
                     .call()
                     .content();
