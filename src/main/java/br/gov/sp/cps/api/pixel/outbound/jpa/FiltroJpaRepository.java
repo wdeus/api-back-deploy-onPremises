@@ -23,4 +23,16 @@ public interface FiltroJpaRepository extends JpaRepository<FatoEntrevista, Long>
             "ORDER BY table_name",
             nativeQuery = true)
     List<ComboboxProjection> findFatos();
+
+    @Query(value = "SELECT table_name AS nome, " +
+            "CONCAT('Gerenciamento ', REPLACE(table_name, 'dim_', '')) AS alias, " +
+            "array_to_string(array_agg(column_name), ',') AS campos " +
+            "FROM information_schema.columns " +
+            "WHERE table_schema = 'public' " +
+            "AND table_name LIKE 'dim%' " +
+            "AND column_name NOT LIKE 'id%' " +
+            "GROUP BY table_name " +
+            "ORDER BY table_name",
+            nativeQuery = true)
+    List<ComboboxProjection> findDimensoes();
 }
