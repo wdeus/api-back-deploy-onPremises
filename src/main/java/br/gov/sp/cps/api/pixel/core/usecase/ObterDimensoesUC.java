@@ -14,6 +14,6 @@ public class ObterDimensoesUC {
     private final FiltroRepository filtroRepository;
 
     public List<ComboboxProjection> executar(){
-        return filtroRepository.findFatos();
+        return filtroRepository.findDimensoes();
     }
 }
