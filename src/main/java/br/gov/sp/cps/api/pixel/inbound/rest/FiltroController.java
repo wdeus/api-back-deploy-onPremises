@@ -1,6 +1,7 @@
 package br.gov.sp.cps.api.pixel.inbound.rest;
 
 import br.gov.sp.cps.api.pixel.core.domain.dto.projection.ComboboxProjection;
+import br.gov.sp.cps.api.pixel.core.usecase.ObterDimensoesUC;
 import br.gov.sp.cps.api.pixel.core.usecase.ObterFatosUC;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,15 @@ import java.util.List;
 public class FiltroController {
 
     private final ObterFatosUC obterFatosUC;
+    private final ObterDimensoesUC obterDimensoesUC;
 
     @GetMapping("/fato")
     public ResponseEntity<List<ComboboxProjection>> listarFatos(){
         return ResponseEntity.ok(obterFatosUC.executar());
+    }
+
+    @GetMapping("/dimensao")
+    public ResponseEntity<List<ComboboxProjection>> listarDimensoes(){
+        return ResponseEntity.ok(obterDimensoesUC.executar());
     }
 }
