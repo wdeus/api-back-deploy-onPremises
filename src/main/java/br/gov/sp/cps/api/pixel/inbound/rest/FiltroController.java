@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,13 +20,13 @@ public class FiltroController {
     private final ObterFatosUC obterFatosUC;
     private final ObterDimensoesUC obterDimensoesUC;
 
-    @GetMapping("/fato")
+    @GetMapping("/fatos")
     public ResponseEntity<List<ComboboxProjection>> listarFatos(){
         return ResponseEntity.ok(obterFatosUC.executar());
     }
 
-    @GetMapping("/dimensao")
-    public ResponseEntity<List<ComboboxProjection>> listarDimensoes(){
-        return ResponseEntity.ok(obterDimensoesUC.executar());
+    @GetMapping("/dimensoes")
+    public ResponseEntity<List<ComboboxProjection>> listarDimensoesPorFato(@RequestParam("fato") String fato){
+        return ResponseEntity.ok(obterDimensoesUC.executar(fato));
     }
 }

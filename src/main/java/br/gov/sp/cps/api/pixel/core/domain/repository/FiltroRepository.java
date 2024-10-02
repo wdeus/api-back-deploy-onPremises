@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface FiltroRepository {
 
-    List<ComboboxProjection> findFatos();
+    List<ComboboxProjection> buscarFatos();
 
-    List<ComboboxProjection> findDimensoes();
+    List<ComboboxProjection> buscarDimensoesPorFato(String fato);
 }
