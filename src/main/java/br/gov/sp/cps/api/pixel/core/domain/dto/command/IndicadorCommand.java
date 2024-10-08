@@ -8,4 +8,5 @@ public class IndicadorCommand {
     private Filtro indicador;
     private Filtro filtro;
     private String usuario;
+    private String descricao;
 }
