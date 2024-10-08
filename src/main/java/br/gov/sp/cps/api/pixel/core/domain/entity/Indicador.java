@@ -38,7 +38,9 @@ public class Indicador {
     private String filtroValor;
 
     @Column(nullable = false)
-    private String usuario ;
+    private String usuario;
+
+    private String descricao;
 
 
     public static Indicador toEntity(IndicadorCommand indicadorDto){
@@ -52,6 +54,7 @@ public class Indicador {
         indicador.setFiltroComparador(indicadorDto.getFiltro().getComparador());
         indicador.setFiltroValor(indicadorDto.getFiltro().getValor());
         indicador.setUsuario(indicadorDto.getUsuario());
+        indicador.setDescricao(indicadorDto.getDescricao());
         return indicador;
     }
 }
