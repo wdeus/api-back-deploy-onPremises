@@ -5,6 +5,9 @@ import br.gov.sp.cps.api.pixel.core.domain.entity.Indicador;
 import br.gov.sp.cps.api.pixel.core.domain.repository.IndicadorRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+
 @Service
 public class IndicadorUC {
 
@@ -16,5 +19,13 @@ public class IndicadorUC {
 
     public Indicador postarr(IndicadorCommand novaIndicadorCommand) {
         return indicadorRepository.salvar(Indicador.toEntity(novaIndicadorCommand));
+    }
+
+    public List<Indicador> listar() {
+        return indicadorRepository.listarTodos();
+    }
+
+    public Optional<Indicador> buscarporID(int id){
+        return indicadorRepository.buscarID(id);
     }
 }
