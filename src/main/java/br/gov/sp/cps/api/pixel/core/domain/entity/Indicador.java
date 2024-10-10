@@ -1,5 +1,6 @@
 package br.gov.sp.cps.api.pixel.core.domain.entity;
 
+import br.gov.sp.cps.api.pixel.core.domain.dto.Filtro;
 import br.gov.sp.cps.api.pixel.core.domain.dto.command.IndicadorCommand;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -56,6 +57,29 @@ public class Indicador {
         indicador.setUsuario(indicadorDto.getUsuario());
         indicador.setDescricao(indicadorDto.getDescricao());
         return indicador;
+    }
+
+    public IndicadorCommand toCommand() {
+        IndicadorCommand indicadorCommand = new IndicadorCommand();
+
+        Filtro indicadorFiltro = new Filtro();
+        indicadorFiltro.setNome(this.indicadorNome);
+        indicadorFiltro.setCampo(this.indicadorCampo);
+        indicadorFiltro.setComparador(this.indicadorComparador);
+        indicadorFiltro.setValor(this.indicadorValor);
+
+        Filtro filtro = new Filtro();
+        filtro.setNome(this.filtroNome);
+        filtro.setCampo(this.filtroCampo);
+        filtro.setComparador(this.filtroComparador);
+        filtro.setValor(this.filtroValor);
+
+        indicadorCommand.setIndicador(indicadorFiltro);
+        indicadorCommand.setFiltro(filtro);
+        indicadorCommand.setUsuario(this.usuario);
+        indicadorCommand.setDescricao(this.descricao);
+
+        return indicadorCommand;
     }
 }
 
