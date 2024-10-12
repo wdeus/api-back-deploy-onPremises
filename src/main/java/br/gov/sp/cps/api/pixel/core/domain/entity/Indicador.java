@@ -12,7 +12,7 @@ public class Indicador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_config_Indicador;
+    private int idConfigIndicador;
 
     @Column(name = "indicador_nome")
     private String indicadorNome;
@@ -23,7 +23,7 @@ public class Indicador {
     @Column(name = "indicador_comparador")
     private String indicadorComparador;
 
-    @Column(name = "indicadorvalor")
+    @Column(name = "indicador_valor")
     private String indicadorValor;
 
     @Column(name = "filtro_nome")

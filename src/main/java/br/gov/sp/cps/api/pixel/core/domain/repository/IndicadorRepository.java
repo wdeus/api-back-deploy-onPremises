@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface IndicadorRepository {
     Indicador salvar(Indicador indicador);
     List<Indicador> listarTodos();
-    Optional<Indicador> buscarID(int id);
+    Optional<Indicador> buscarPorId(int id);
 }

@@ -17,15 +17,15 @@ public class IndicadorUC {
         this.indicadorRepository = indicadorRepository;
     }
 
-    public Indicador postarr(IndicadorCommand novaIndicadorCommand) {
-        return indicadorRepository.salvar(Indicador.toEntity(novaIndicadorCommand));
+    public Indicador postar(IndicadorCommand indicadorCommand) {
+        return indicadorRepository.salvar(Indicador.toEntity(indicadorCommand));
     }
 
     public List<Indicador> listar() {
         return indicadorRepository.listarTodos();
     }
 
-    public Optional<Indicador> buscarporID(int id){
-        return indicadorRepository.buscarID(id);
+    public Optional<Indicador> buscarPorId(int id){
+        return indicadorRepository.buscarPorId(id);
     }
 }

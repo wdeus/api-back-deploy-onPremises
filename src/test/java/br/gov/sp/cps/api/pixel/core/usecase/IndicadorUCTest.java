@@ -11,6 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -33,7 +37,7 @@ class IndicadorUCTest {
     }
 
     @Test
-    void postarr() throws JsonProcessingException {
+    void postar() throws JsonProcessingException {
         String json = "{"
                 + "\"indicador\": {"
                 + "\"nome\": \"Indicador B\","
@@ -47,14 +51,46 @@ class IndicadorUCTest {
                 + "\"comparador\": \"+\","
                 + "\"valor\": \"201\""
                 + "},"
-                + "\"usuario\": \"usuario2\""
+                + "\"usuario\": \"usuario2\","
+                + "\"descricao\": \"descricao\""
                 + "}";
 
         IndicadorCommand indicadorCommand = objectMapper.readValue(json, IndicadorCommand.class);
         Indicador indicadorRetornado = new Indicador();
         when(indicadorRepository.salvar(any(Indicador.class))).thenReturn(indicadorRetornado);
-        Indicador resultado = indicadorUC.postarr(indicadorCommand);
+        Indicador resultado = indicadorUC.postar(indicadorCommand);
         assertEquals(indicadorRetornado, resultado);
         verify(indicadorRepository).salvar(any(Indicador.class));
+    }
+
+    @Test
+    void listar() {
+        Indicador indicador1 = new Indicador();
+        indicador1.setUsuario("usuario1");
+        indicador1.setIndicadorComparador("=");
+
+        Indicador indicador2 = new Indicador();
+        indicador2.setUsuario("usuario2");
+        indicador2.setIndicadorComparador("+");
+
+        List<Indicador> indicadoresSimulados = Arrays.asList(indicador1, indicador2);
+        when(indicadorRepository.listarTodos()).thenReturn(indicadoresSimulados);
+        List<Indicador> resultado = indicadorUC.listar();
+        verify(indicadorRepository).listarTodos();
+
+        assertNotNull(resultado);
+        assertEquals(2, resultado.size());
+        assertEquals("usuario1", resultado.get(0).getUsuario());
+        assertEquals("usuario2", resultado.get(1).getUsuario());
+    }
+    @Test
+    void buscarPorId() {
+        Indicador indicadorSimulado = new Indicador();
+        indicadorSimulado.setUsuario("usuario1");
+        when(indicadorRepository.buscarPorId(1)).thenReturn(Optional.of(indicadorSimulado));
+        Optional<Indicador> resultado = indicadorUC.buscarPorId(1);
+        verify(indicadorRepository).buscarPorId(1);
+        assertTrue(resultado.isPresent());
+        assertEquals("usuario1", resultado.get().getUsuario());
     }
 }

@@ -28,7 +28,7 @@ public class IndicadorRepositoryBd implements IndicadorRepository {
     }
 
     @Override
-    public Optional<Indicador> buscarID(int id){
+    public Optional<Indicador> buscarPorId(int id){
         return indicadorJpaRepository.findById(id);
     }
 }
