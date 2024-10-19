@@ -14,6 +14,14 @@ services:
     volumes:
       - postgresql:/var/lib/postgresql
       - postgresql_data:/var/lib/postgresql/data
+  h2:
+    image: oscarfonts/h2:latest
+    container_name: h2
+    ports:
+      - "8082:8082"
+      - "1521:1521"
+    environment:
+      H2_OPTIONS: '-tcpAllowOthers -tcpPort 1521 -web -webAllowOthers -webPort 8082'
 
 volumes:
   postgresql:
