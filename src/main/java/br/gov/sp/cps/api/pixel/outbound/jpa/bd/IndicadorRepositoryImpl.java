@@ -15,25 +15,41 @@ public class IndicadorRepositoryImpl {
     private final EntityManager entityManager;
 
     public List<?> executarConsultaIndicador(Indicador indicador) {
+        StringBuilder queryBuilder = new StringBuilder("SELECT SUM(f.");
 
-        StringBuilder queryBuilder = new StringBuilder("SELECT f.* FROM ");
+        queryBuilder.append(indicador.getIndicadorCampo()).append(") ");
 
-        queryBuilder.append(indicador.getIndicadorNome()).append(" f ");
-        queryBuilder.append("JOIN ").append(indicador.getFiltroNome()).append(" d ")
-                .append("ON f.id_").append(indicador.getFiltroNome())
-                .append(" = d.id_").append(indicador.getFiltroNome())
-                .append(" WHERE f.");
-        queryBuilder.append(indicador.getIndicadorCampo()).append(" ")
+        queryBuilder.append("FROM ").append(indicador.getIndicadorNome()).append(" f ");
+
+        boolean hasFiltro = indicador.getFiltroCampo() != null && !indicador.getFiltroCampo().isEmpty();
+
+        if (hasFiltro) {
+            queryBuilder.append("JOIN ").append(indicador.getFiltroNome()).append(" d ")
+                    .append("ON f.id_").append(indicador.getFiltroNome())
+                    .append(" = d.id_").append(indicador.getFiltroNome()).append(" ");
+        }
+
+        if (hasFiltro) {
+            queryBuilder.append("WHERE d.")
+                .append(indicador.getFiltroCampo()).append(" ")
+                .append(indicador.getFiltroComparador()).append(" :filtro_valor ");
+
+        }
+
+        queryBuilder.append("HAVING SUM(f.")
+                .append(indicador.getIndicadorCampo()).append(") ")
                 .append(indicador.getIndicadorComparador()).append(" :indicador_valor ");
-        queryBuilder.append("AND d.").append(indicador.getFiltroCampo()).append(" ")
-                .append(indicador.getFiltroComparador()).append(" :filtro_valor");
 
         System.out.println(queryBuilder.toString());
+
         Query query = entityManager.createNativeQuery(queryBuilder.toString());
 
         int valorConvertido = Integer.parseInt(indicador.getIndicadorValor());
         query.setParameter("indicador_valor", valorConvertido);
-        query.setParameter("filtro_valor", indicador.getFiltroValor());
+
+        if (hasFiltro) {
+            query.setParameter("filtro_valor", indicador.getFiltroValor());
+        }
 
         return query.getResultList();
     }
