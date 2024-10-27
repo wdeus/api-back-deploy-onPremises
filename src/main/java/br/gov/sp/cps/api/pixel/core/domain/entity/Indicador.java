@@ -74,6 +74,8 @@ public class Indicador {
         filtro.setComparador(this.filtroComparador);
         filtro.setValor(this.filtroValor);
 
+        
+        indicadorCommand.setId(this.idConfigIndicador);
         indicadorCommand.setIndicador(indicadorFiltro);
         indicadorCommand.setFiltro(filtro);
         indicadorCommand.setUsuario(this.usuario);
