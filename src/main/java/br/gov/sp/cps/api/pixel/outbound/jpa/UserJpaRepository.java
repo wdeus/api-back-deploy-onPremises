@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public interface UserJpaRepository extends JpaRepository<User, Long>, UserRepository {
 
     default UserDetails buscarPorLogin(String login) {
-        return null;
+        return findByLogin(login);
     }
 
     UserDetails findByLogin(String login);
