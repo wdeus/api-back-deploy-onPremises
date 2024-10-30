@@ -17,8 +17,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class IndicadorUCTest {
 
@@ -92,5 +91,15 @@ class IndicadorUCTest {
         verify(indicadorRepository).buscarPorId(1);
         assertTrue(resultado.isPresent());
         assertEquals("usuario1", resultado.get().getUsuario());
+    }
+
+    @Test
+    void testarDeletarPorId() {
+        int id = 1;
+        doNothing().when(indicadorRepository).deletarPorId(id);
+
+        indicadorUC.deletar(id);
+
+        verify(indicadorRepository, times(1)).deletarPorId(id);
     }
 }

@@ -17,9 +17,8 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -89,6 +88,16 @@ class IndicadorControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
         verify(indicadorUC, times(1)).buscarPorId(1);
+    }
+
+    @Test
+    void deletarIndicador() throws Exception {
+        int id = 1;
+        when(indicadorUC.buscarPorId(id)).thenReturn(Optional.of(new Indicador()));
+        doNothing().when(indicadorUC).deletar(id);
+        mockMvc.perform(delete("/indicadores/{id}", id))
+                .andExpect(status().isNoContent());
+        verify(indicadorUC, times(1)).deletar(id);
     }
 
 
