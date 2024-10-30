@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 
+import br.gov.sp.cps.api.pixel.PixelApplication;
 import br.gov.sp.cps.api.pixel.core.domain.dto.Eixo;
 import br.gov.sp.cps.api.pixel.core.domain.dto.Filtro;
 import br.gov.sp.cps.api.pixel.core.domain.dto.command.VisualizarGraficoCommand;
@@ -18,13 +19,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-@WebMvcTest(GraficoController.class)
+@SpringBootTest(classes = PixelApplication.class)
+@AutoConfigureMockMvc
+@WithMockUser(username="admin",roles={"USER","ADMIN"})
 class GraficoControllerTest{
     @Autowired
     private MockMvc mockMvc;

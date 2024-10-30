@@ -3,6 +3,7 @@ package br.gov.sp.cps.api.pixel.inbound.rest;
 import br.gov.sp.cps.api.pixel.core.domain.dto.command.IndicadorCommand;
 import br.gov.sp.cps.api.pixel.core.domain.entity.Indicador;
 import br.gov.sp.cps.api.pixel.core.usecase.IndicadorUC;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,4 +46,18 @@ public class IndicadorController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarIndicador(@PathVariable int id) {
+        Optional<Indicador> indicadorOptional = indicadorUC.buscarPorId(id);
+        if (indicadorOptional.isPresent()) {
+            indicadorUC.deletar(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+
 }
