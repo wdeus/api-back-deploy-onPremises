@@ -1,0 +1,73 @@
+name: Java CI/CD with Maven
+
+on:
+  push:
+    branches: [ "main", "qas", "develop" ]
+  pull_request:
+    branches: [ "main", "qas", "develop" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Executa testes unitários na branch 'develop'
+      - name: Run Unit Tests
+        if: github.ref == 'refs/heads/develop'
+        run: mvn test -Dtest=*UnitTest
+
+      # Executa testes de integração na branch 'qas'
+      - name: Run Integration Tests
+        if: github.ref == 'refs/heads/qas'
+        run: mvn verify -Dtest=*IntegrationTest
+
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'  # Executa build e push somente na 'main'
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Build with Maven
+        run: |
+          mvn clean install -DskipTests=true
+          mkdir artifacts && cp target/*.jar artifacts
+          cd artifacts && ls
+
+      - name: Save artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: github-action-artifact
+          path: artifacts
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:                  
+          username: pixelapi  
+          password: dckr_pat_141H8Srq1M-oOjg-fho4j6ezHMY 
+
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push to Docker Hub
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: pixelapi/spring_app:latest
