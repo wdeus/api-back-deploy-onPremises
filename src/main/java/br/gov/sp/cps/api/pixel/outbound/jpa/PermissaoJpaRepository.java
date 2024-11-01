@@ -1,6 +1,5 @@
 package br.gov.sp.cps.api.pixel.outbound.jpa;
 
-import br.gov.sp.cps.api.pixel.core.domain.entity.Indicador;
 import br.gov.sp.cps.api.pixel.core.domain.entity.Permissao;
 import br.gov.sp.cps.api.pixel.core.domain.repository.PermissaoRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
