@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 @Table(name = "grupo")
 public class Grupo {
 
@@ -19,6 +19,7 @@ public class Grupo {
     private Long id;
 
     private String nome;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "grupo_permissao",

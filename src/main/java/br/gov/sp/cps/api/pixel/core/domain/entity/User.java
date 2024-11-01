@@ -2,7 +2,9 @@ package br.gov.sp.cps.api.pixel.core.domain.entity;
 
 import br.gov.sp.cps.api.pixel.core.domain.enumeration.UserRole;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +13,8 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity(name = "users")
 @Table(name = "users")
 public class User implements UserDetails {
@@ -24,9 +28,9 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public User() {
-
-    }
+    @ManyToOne
+    @JoinColumn(name = "grupo_id")
+    private Grupo grupo;
 
     public User(String login, String password, UserRole role) {
         this.login = login;
