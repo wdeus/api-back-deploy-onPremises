@@ -7,13 +7,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-public interface GrupoJpaRepository extends JpaRepository<Grupo,Integer>, GrupoRepository {
+public interface GrupoJpaRepository extends JpaRepository<Grupo,Long>, GrupoRepository {
 
     default List<Grupo> listarTodos(){
         return findAll();
     }
 
-    default Optional<Grupo> buscarPorId(int id) {
+    default Optional<Grupo> buscarPorId(Long id) {
         return findById(id);
     }
 
