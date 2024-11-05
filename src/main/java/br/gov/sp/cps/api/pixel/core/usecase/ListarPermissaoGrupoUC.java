@@ -8,11 +8,11 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ListarPermissoesGruposUC {
+public class ListarPermissaoGrupoUC {
 
     private final UserRepository userRepository;
 
-    public List<Object[]> listarPermissoes(Long grupoId) {
+    public List<Object[]> listarPermissaoGrupo(Long grupoId) {
         return userRepository.buscarPermissoesPorGrupoId(grupoId);
     }
 }

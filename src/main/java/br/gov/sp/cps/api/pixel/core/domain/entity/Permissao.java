@@ -24,6 +24,6 @@ public class Permissao {
     @Column(name = "descricao")
     private String descricao;
 
-    @ManyToMany(mappedBy = "permissoes")
+    @ManyToMany(mappedBy = "permissoes", fetch = FetchType.EAGER)
     private List<Grupo> grupos;
 }

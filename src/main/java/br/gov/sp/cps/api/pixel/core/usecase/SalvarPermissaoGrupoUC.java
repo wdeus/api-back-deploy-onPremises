@@ -12,12 +12,12 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class SalvarPermissoesGruposUC {
+public class SalvarPermissaoGrupoUC {
 
     private final GrupoRepository grupoRepository;
     private final PermissaoRepository permissaoRepository;
     
-    public void salvarPermissoes(Long idGrupo, List<Integer> permissoesId) {
+    public void salvarPermissaoGrupo(Long idGrupo, List<Integer> permissoesId) {
         Grupo grupo = grupoRepository.buscarPorId(idGrupo)
                 .orElseThrow(() -> new IllegalArgumentException("Grupo não encontrado"));
 
