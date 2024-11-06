@@ -1,5 +1,6 @@
 package br.gov.sp.cps.api.pixel.core.usecase;
 
+import br.gov.sp.cps.api.pixel.core.domain.dto.projection.PermissaoGrupoProjection;
 import br.gov.sp.cps.api.pixel.core.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ public class ListarPermissaoGrupoUC {
 
     private final UserRepository userRepository;
 
-    public List<Object[]> listarPermissaoGrupo(Long grupoId) {
+    public List<PermissaoGrupoProjection> listarPermissaoGrupo(Long grupoId) {
         return userRepository.buscarPermissoesPorGrupoId(grupoId);
     }
 }

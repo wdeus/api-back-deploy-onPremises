@@ -1,5 +1,6 @@
 package br.gov.sp.cps.api.pixel.outbound.jpa;
 
+import br.gov.sp.cps.api.pixel.core.domain.dto.projection.PermissaoGrupoProjection;
 import br.gov.sp.cps.api.pixel.core.domain.entity.User;
 import br.gov.sp.cps.api.pixel.core.domain.repository.UserRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,14 +21,12 @@ public interface UserJpaRepository extends JpaRepository<User, Long>, UserReposi
         return save(user);
     }
 
-    @Query(value = "SELECT u.login AS nome_usuario, g.nome AS nome_grupo, p.descricao AS descricao " +
-            "FROM users u " +
-            "JOIN grupo g ON g.id = u.grupo_id " +
+    @Query(value = "SELECT DISTINCT p.id_permissao AS idPermissao, p.descricao AS descricao, " +
+            "g.nome AS nomeGrupo " +
+            "FROM grupo g " +
             "JOIN grupo_permissao gp ON gp.grupo_id = g.id " +
             "JOIN permissao p ON gp.permissao_id = p.id_permissao " +
             "WHERE g.id = ?",
             nativeQuery = true)
-    List<Object[]> buscarPermissoesPorGrupoId(Long grupoId);
-
-
+    List<PermissaoGrupoProjection> buscarPermissoesPorGrupoId(Long grupoId);
 }

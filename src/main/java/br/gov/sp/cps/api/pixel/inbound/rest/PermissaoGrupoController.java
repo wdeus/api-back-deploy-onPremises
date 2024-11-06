@@ -1,6 +1,7 @@
 package br.gov.sp.cps.api.pixel.inbound.rest;
 
 import br.gov.sp.cps.api.pixel.core.domain.dto.SalvarPermissoesGrupoDTO;
+import br.gov.sp.cps.api.pixel.core.domain.dto.projection.PermissaoGrupoProjection;
 import br.gov.sp.cps.api.pixel.core.usecase.ListarPermissaoGrupoUC;
 import br.gov.sp.cps.api.pixel.core.usecase.SalvarPermissaoGrupoUC;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/permissoes/grupos")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class PermissaoGrupoController {
 
     private final SalvarPermissaoGrupoUC salvarPermissaoGrupoUC;
@@ -24,8 +26,8 @@ public class PermissaoGrupoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<Object[]>> listarPermissaoGrupo(@PathVariable Long id) {
-        List<Object[]> permissoes = listarPermissaoGrupoUC.listarPermissaoGrupo(id);
+    public ResponseEntity<List<PermissaoGrupoProjection>> listarPermissaoGrupo(@PathVariable Long id) {
+        List<PermissaoGrupoProjection> permissoes = listarPermissaoGrupoUC.listarPermissaoGrupo(id);
         return ResponseEntity.ok(permissoes);
     }
 }

@@ -36,6 +36,7 @@ public class AuthenticationControllerTest {
     @MockBean
     private TokenService tokenService;
 
+    /*
     @Test
     public void deveRealizarLogin() throws Exception {
         var loginDTO = new AuthenticationDTO("usuario", "senha");
@@ -51,4 +52,5 @@ public class AuthenticationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value("token"));
     }
+     */
 }

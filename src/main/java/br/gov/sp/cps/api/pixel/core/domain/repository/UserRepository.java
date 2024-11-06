@@ -1,5 +1,6 @@
 package br.gov.sp.cps.api.pixel.core.domain.repository;
 
+import br.gov.sp.cps.api.pixel.core.domain.dto.projection.PermissaoGrupoProjection;
 import br.gov.sp.cps.api.pixel.core.domain.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,5 +12,5 @@ public interface UserRepository {
 
     User salvar(User user);
 
-    List<Object[]> buscarPermissoesPorGrupoId(Long grupoId);
+    List<PermissaoGrupoProjection> buscarPermissoesPorGrupoId(Long grupoId);
 }
