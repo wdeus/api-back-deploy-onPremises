@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface PermissaoRepository {
 
+    Permissao salvar(Permissao permissao);
+
     List<Permissao> listarTodos();
 
     Optional<Permissao> buscarPorId(int id);

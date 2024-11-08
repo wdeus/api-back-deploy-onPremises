@@ -12,7 +12,12 @@ public interface PermissaoJpaRepository extends JpaRepository<Permissao,Integer>
     default List<Permissao>listarTodos(){
         return findAll();
     }
+
     default Optional<Permissao> buscarPorId(int id) {
         return findById(id);
+    }
+
+    default Permissao salvar(Permissao permissao) {
+        return save(permissao);
     }
 }
