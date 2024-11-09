@@ -29,10 +29,15 @@ jobs:
       - name: Start Docker services
         run: docker-compose up -d
 
-      # Executa testes unitários na branch 'main'
+      # Executa testes unitários na branch 'develop'
       - name: Run Unit Tests
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/develop'
         run: mvn test
+
+      # Executa testes de integração na branch 'qas'
+      - name: Run Integration Tests
+        if: github.ref == 'refs/heads/qas'
+        run: mvn verify -Dtest=*IntegrationTest
 
   build:
     runs-on: ubuntu-latest
