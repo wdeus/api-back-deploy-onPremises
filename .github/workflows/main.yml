@@ -5,6 +5,8 @@ on:
     branches: [ "main", "qas", "develop" ]
   pull_request:
     branches: [ "main", "qas", "develop" ]
+  schedule:
+    - cron: '0 18 * * *'  
 
 jobs:
   test:
@@ -40,7 +42,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           
-
       # Executa build e push somente na branch 'main'
       - name: Build with Maven
         if: github.ref == 'refs/heads/main'
@@ -62,7 +63,6 @@ jobs:
         with:
           username: pixelapi  
           password: dckr_pat_141H8Srq1M-oOjg-fho4j6ezHMY 
-
 
       - name: Set up Docker Buildx
         if: github.ref == 'refs/heads/main'
