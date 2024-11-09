@@ -14,4 +14,7 @@ public interface IndicadorRepository {
     Optional<Indicador> buscarPorId(int id);
 
     List<Indicador> localizarPorUsuario(String usuario);
+
+    void deletarPorId(int id);
+
 }

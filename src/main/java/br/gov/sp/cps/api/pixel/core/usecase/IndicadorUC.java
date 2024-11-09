@@ -28,4 +28,10 @@ public class IndicadorUC {
     public Optional<Indicador> buscarPorId(int id){
         return indicadorRepository.buscarPorId(id);
     }
+
+    public void deletar(int id) {
+        indicadorRepository.deletarPorId(id);
+    }
+
+
 }

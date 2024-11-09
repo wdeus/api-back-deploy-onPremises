@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class IndicadorCommand {
+    private int id;
     private Filtro indicador;
     private Filtro filtro;
     private String usuario;
