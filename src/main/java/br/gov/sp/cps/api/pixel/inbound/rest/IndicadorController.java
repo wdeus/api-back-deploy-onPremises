@@ -3,6 +3,7 @@ package br.gov.sp.cps.api.pixel.inbound.rest;
 import br.gov.sp.cps.api.pixel.core.domain.dto.command.IndicadorCommand;
 import br.gov.sp.cps.api.pixel.core.domain.entity.Indicador;
 import br.gov.sp.cps.api.pixel.core.usecase.IndicadorUC;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +15,11 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/indicadores")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class IndicadorController {
-    private final IndicadorUC indicadorUC;
 
-    public IndicadorController(IndicadorUC indicadorUC) {
-        this.indicadorUC = indicadorUC;
-    }
+    private final IndicadorUC indicadorUC;
 
     @PostMapping
     public ResponseEntity<Indicador> criarIndicador(@RequestBody IndicadorCommand indicadorCommand) {
@@ -57,7 +57,4 @@ public class IndicadorController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-
-
 }
