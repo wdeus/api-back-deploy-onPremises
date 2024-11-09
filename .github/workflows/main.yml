@@ -11,7 +11,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    continue-on-error: true
 
     steps:
       - uses: actions/checkout@v3
@@ -21,15 +20,19 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # Executa testes unitários na branch 'develop'
-      - name: Run Unit Tests
-        if: github.ref == 'refs/heads/develop'
-        run: mvn test -Dtest=*UnitTest
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
 
-      # Executa testes de integração na branch 'qas'
-      - name: Run Integration Tests
-        if: github.ref == 'refs/heads/qas'
-        run: mvn verify -Dtest=*IntegrationTest
+      - name: Start Docker services
+        run: docker-compose up -d
+
+      # Executa testes unitários na branch 'main'
+      - name: Run Unit Tests
+        if: github.ref == 'refs/heads/main'
+        run: mvn test
 
   build:
     runs-on: ubuntu-latest
