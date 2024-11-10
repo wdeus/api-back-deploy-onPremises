@@ -5,11 +5,12 @@ on:
     branches: [ "main", "qas", "develop" ]
   pull_request:
     branches: [ "main", "qas", "develop" ]
+  schedule:
+    - cron: '0 18 * * *'  
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    continue-on-error: true
 
     steps:
       - uses: actions/checkout@v3
@@ -19,10 +20,19 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+          docker-compose --version
+
+      - name: Start Docker services
+        run: docker-compose up -d
+
       # Executa testes unitários na branch 'develop'
       - name: Run Unit Tests
         if: github.ref == 'refs/heads/develop'
-        run: mvn test -Dtest=*UnitTest
+        run: mvn test
 
       # Executa testes de integração na branch 'qas'
       - name: Run Integration Tests
@@ -40,7 +50,6 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           
-
       # Executa build e push somente na branch 'main'
       - name: Build with Maven
         if: github.ref == 'refs/heads/main'
@@ -62,7 +71,6 @@ jobs:
         with:
           username: pixelapi  
           password: dckr_pat_141H8Srq1M-oOjg-fho4j6ezHMY 
-
 
       - name: Set up Docker Buildx
         if: github.ref == 'refs/heads/main'

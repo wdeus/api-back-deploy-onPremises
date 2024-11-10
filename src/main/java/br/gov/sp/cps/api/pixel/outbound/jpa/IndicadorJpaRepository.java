@@ -25,5 +25,9 @@ public interface IndicadorJpaRepository extends JpaRepository<Indicador,Integer>
         return findByUsuario(usuario);
     }
 
+    default void deletarPorId(int id) {
+        deleteById(id);
+    }
+
     List<Indicador> findByUsuario(String usuario);
 }
