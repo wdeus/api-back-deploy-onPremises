@@ -13,8 +13,14 @@ jobs:
     strategy:
       matrix:
         vm: 
-          - { host: ${{ secrets.SSH_HOST }}, user: ${{ secrets.SSH_USER }}, port: ${{ secrets.SSH_PORT }}, key: ${{ secrets.SSH_KEY }} }
-          - { host: ${{ secrets.SSH_HOST_VM2 }}, user: ${{ secrets.SSH_USER_VM2 }}, port: ${{ secrets.SSH_PORT_VM2 }}, key: ${{ secrets.SSH_KEY_VM2 }} }
+          - host: ${{ secrets.SSH_HOST }}
+            user: ${{ secrets.SSH_USER }}
+            port: ${{ secrets.SSH_PORT }}
+            key: ${{ secrets.SSH_KEY }}
+          - host: ${{ secrets.SSH_HOST_VM2 }}
+            user: ${{ secrets.SSH_USER_VM2 }}
+            port: ${{ secrets.SSH_PORT_VM2 }}
+            key: ${{ secrets.SSH_KEY_VM2 }}
 
     steps:
       - name: Checkout Code
