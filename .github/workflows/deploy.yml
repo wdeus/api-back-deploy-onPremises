@@ -46,6 +46,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           key: ${{ secrets.SSH_KEY }}
           script: |
+            export PATH=$PATH:/opt/maven/bin/mvn
             cd ~/springapp
             mvn clean install -DskipTests=true
             cd target
@@ -91,6 +92,7 @@ jobs:
           port: ${{ secrets.SSH_PORT_VM2 }}
           key: ${{ secrets.SSH_KEY_VM2 }}
           script: |
+            export PATH=$PATH:/opt/maven/bin/mvn
             cd ~/springapp
             mvn clean install -DskipTests=true
             cd target
