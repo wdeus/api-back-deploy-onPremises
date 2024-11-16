@@ -38,11 +38,10 @@ jobs:
           port: ${{ matrix.vm.port }}
           key: ${{ matrix.vm.key }}
           script: |
-            # Verifica se há algum processo rodando na porta 8080
             process_id=$(lsof -t -i :8080)
             if [ -n "$process_id" ]; then
               echo "Processo encontrado na porta 8080 (PID: $process_id). Matando o processo."
-              kill -9 $process_id  # Mata o processo que está usando a porta 8080
+              kill -9 $process_id
             else
               echo "Nenhum processo encontrado na porta 8080."
             fi
