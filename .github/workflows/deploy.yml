@@ -42,5 +42,5 @@ jobs:
             cd ~/springapp
             mvn clean install -DskipTests=true
             cd target
-            nohup java -jar pixel-0.0.1-SNAPSHOT.jar &
+            java -jar pixel-0.0.1-SNAPSHOT.jar &
 
