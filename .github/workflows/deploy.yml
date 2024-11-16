@@ -29,7 +29,17 @@ jobs:
           source: "**"
           # VPS path
           target: "~/springapp"
-
+          
+      - name: Check and Kill Process on Port 80
+        run: |
+          # Verifica se há algum processo rodando na porta 80
+          process_id=$(lsof -t -i :80)
+          if [ -n "$process_id" ]; then
+            echo "Processo encontrado na porta 80 (PID: $process_id). Matando o processo."
+            kill -9 $process_id  # Mata o processo que está usando a porta 80
+          else
+            echo "Nenhum processo encontrado na porta 80."
+          fi
 
       - name: Build and Start SpringApp
         uses: appleboy/ssh-action@master
