@@ -12,37 +12,44 @@ jobs:
 
     strategy:
       matrix:
-        vm: 
-          - host: ${{ secrets.SSH_HOST }}
-            user: ${{ secrets.SSH_USER }}
-            port: ${{ secrets.SSH_PORT }}
-            key: ${{ secrets.SSH_KEY }}
-          - host: ${{ secrets.SSH_HOST_VM2 }}
-            user: ${{ secrets.SSH_USER_VM2 }}
-            port: ${{ secrets.SSH_PORT_VM2 }}
-            key: ${{ secrets.SSH_KEY_VM2 }}
+        vm: [vm1, vm2]  # Identificadores para cada VM
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
 
+      - name: Set Secrets for VM
+        id: set-secrets
+        run: |
+          if [ "${{ matrix.vm }}" == "vm1" ]; then
+            echo "host=${{ secrets.SSH_HOST }}" >> $GITHUB_ENV
+            echo "user=${{ secrets.SSH_USER }}" >> $GITHUB_ENV
+            echo "port=${{ secrets.SSH_PORT }}" >> $GITHUB_ENV
+            echo "key=${{ secrets.SSH_KEY }}" >> $GITHUB_ENV
+          elif [ "${{ matrix.vm }}" == "vm2" ]; then
+            echo "host=${{ secrets.SSH_HOST_VM2 }}" >> $GITHUB_ENV
+            echo "user=${{ secrets.SSH_USER_VM2 }}" >> $GITHUB_ENV
+            echo "port=${{ secrets.SSH_PORT_VM2 }}" >> $GITHUB_ENV
+            echo "key=${{ secrets.SSH_KEY_VM2 }}" >> $GITHUB_ENV
+          fi
+
       - name: Copy app to VPS
         uses: appleboy/scp-action@master
         with:
-          host: ${{ matrix.vm.host }}
-          username: ${{ matrix.vm.user }}
-          port: ${{ matrix.vm.port }}
-          key: ${{ matrix.vm.key }}
+          host: ${{ env.host }}
+          username: ${{ env.user }}
+          port: ${{ env.port }}
+          key: ${{ env.key }}
           source: "**"
           target: "~/springapp"
 
       - name: Check and Kill Process on Port 8080 (in VM)
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ matrix.vm.host }}
-          username: ${{ matrix.vm.user }}
-          port: ${{ matrix.vm.port }}
-          key: ${{ matrix.vm.key }}
+          host: ${{ env.host }}
+          username: ${{ env.user }}
+          port: ${{ env.port }}
+          key: ${{ env.key }}
           script: |
             process_id=$(lsof -t -i :8080)
             if [ -n "$process_id" ]; then
@@ -55,10 +62,10 @@ jobs:
       - name: Build and Start SpringApp
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ matrix.vm.host }}
-          username: ${{ matrix.vm.user }}
-          port: ${{ matrix.vm.port }}
-          key: ${{ matrix.vm.key }}
+          host: ${{ env.host }}
+          username: ${{ env.user }}
+          port: ${{ env.port }}
+          key: ${{ env.key }}
           script: |
             cd ~/springapp
             mvn clean install -DskipTests=true
