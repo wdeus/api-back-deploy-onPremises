@@ -1,4 +1,4 @@
-name: Deploy to VM
+name: Deploy to VMs
 
 on:
   push:
@@ -6,37 +6,37 @@ on:
       - main  
 
 jobs:
- deploy:
-    name: Deploy
-    runs-on: ${{ matrix.os }}
+  deploy:
+    name: Deploy to Multiple VMs
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        vm: 
+          - { host: ${{ secrets.SSH_HOST }}, user: ${{ secrets.SSH_USER }}, port: ${{ secrets.SSH_PORT }}, key: ${{ secrets.SSH_KEY }} }
+          - { host: ${{ secrets.SSH_HOST_VM2 }}, user: ${{ secrets.SSH_USER_VM2 }}, port: ${{ secrets.SSH_PORT_VM2 }}, key: ${{ secrets.SSH_KEY_VM2 }} }
 
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v2
 
       - name: Copy app to VPS
         uses: appleboy/scp-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          port: ${{ secrets.SSH_PORT }}
-          key: ${{ secrets.SSH_KEY }}
-          # Github path
+          host: ${{ matrix.vm.host }}
+          username: ${{ matrix.vm.user }}
+          port: ${{ matrix.vm.port }}
+          key: ${{ matrix.vm.key }}
           source: "**"
-          # VPS path
           target: "~/springapp"
-          
-      - name: Check and Kill Process on Port 80 (in VM)
+
+      - name: Check and Kill Process on Port 8080 (in VM)
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          port: ${{ secrets.SSH_PORT }}
-          key: ${{ secrets.SSH_KEY }}
+          host: ${{ matrix.vm.host }}
+          username: ${{ matrix.vm.user }}
+          port: ${{ matrix.vm.port }}
+          key: ${{ matrix.vm.key }}
           script: |
             # Verifica se há algum processo rodando na porta 8080
             process_id=$(lsof -t -i :8080)
@@ -50,10 +50,10 @@ jobs:
       - name: Build and Start SpringApp
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          port: ${{ secrets.SSH_PORT }}
-          key: ${{ secrets.SSH_KEY }}
+          host: ${{ matrix.vm.host }}
+          username: ${{ matrix.vm.user }}
+          port: ${{ matrix.vm.port }}
+          key: ${{ matrix.vm.key }}
           script: |
             cd ~/springapp
             mvn clean install -DskipTests=true
